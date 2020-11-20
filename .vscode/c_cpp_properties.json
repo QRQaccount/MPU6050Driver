@@ -3,18 +3,21 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Example/Core/Inc/",
+                "${workspaceFolder}/Example/Drivers/CMSIS/Include/",
+                "${workspaceFolder}/Example/Drivers/STM32F1xx_HAL_Driver/Inc/",
+                "${workspaceFolder}/Example/Drivers/CMSIS/Device/ST/STM32F1xx/Include/",
+                "${workspaceFolder}/MPU6050/Include/"
             ],
             "defines": [
-                "_DEBUG",
-                "UNICODE",
                 "USE_HAL_DRIVER",
-                "STM32F103xE",
+                "STM32F103xB",
                 "__IO"
             ],
             "compilerPath": "/home/qrq/opt/gcc-arm-none-eabi-9/bin/arm-none-eabi-gcc",
-            "cStandard": "gnu11",
-            "cppStandard": "gnu++14",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
             "intelliSenseMode": "gcc-arm"
         }
     ],
