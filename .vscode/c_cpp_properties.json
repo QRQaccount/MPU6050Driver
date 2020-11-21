@@ -8,7 +8,8 @@
                 "${workspaceFolder}/Example/Drivers/CMSIS/Include/",
                 "${workspaceFolder}/Example/Drivers/STM32F1xx_HAL_Driver/Inc/",
                 "${workspaceFolder}/Example/Drivers/CMSIS/Device/ST/STM32F1xx/Include/",
-                "${workspaceFolder}/MPU6050/Include/"
+                "${workspaceFolder}/MPU6050/Include/",
+                "${workspaceFolder}/Example_of_MSP430"
             ],
             "defines": [
                 "USE_HAL_DRIVER",

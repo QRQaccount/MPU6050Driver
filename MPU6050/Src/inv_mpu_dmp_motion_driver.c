@@ -19,10 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../../Include/eMPL/dmpKey.h"
-#include "../../Include/eMPL/inv_mpu_dmp_motion_driver.h"
-#include "../../Include/eMPL/inv_mpu.h"
-#include "../../Include/eMPL/dmpmap.h"
+#include "../Include/inv_mpu.h"
+#include "../Include/inv_mpu_dmp_motion_driver.h"
+#include "dmpKey.h"
+#include "dmpmap.h"
 
 #define MOTION_DRIVER_TARGET_MSP430
 
@@ -39,8 +39,8 @@
 //#include "msp430_clock.h"
 #define delay_ms HAL_Delay
 #define get_ms mget_ms
-#define log_i mlog
-#define log_e mlog
+#define log_i printf
+#define log_e printf
 
 #elif defined EMPL_TARGET_MSP430
 #include "msp430.h"

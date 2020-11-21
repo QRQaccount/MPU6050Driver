@@ -20,7 +20,10 @@
 
 #ifndef _INV_MPU_H_
 #define _INV_MPU_H_
+#include "stm32f1xx_hal.h"
+#include "../../IIC/iic.h"
 
+//定义输出速度
 #define DEFAULT_MPU_HZ (100) //100Hz
 
 #define INV_X_GYRO (0x40)
@@ -32,16 +35,10 @@
 
 struct int_param_s
 {
-    //#if defined EMPL_TARGET_MSP430 || defined MOTION_DRIVER_TARGET_MSP430
     void (*cb)(void);
     unsigned short pin;
     unsigned char lp_exit;
     unsigned char active_low;
-    //#elif defined EMPL_TARGET_UC3L0
-    //    unsigned long pin;
-    //    void (*cb)(volatile void*);
-    //    void *arg;
-    //#endif
 };
 
 #define MPU_INT_STATUS_DATA_READY (0x0001)
@@ -60,6 +57,7 @@ struct int_param_s
 #define MPU_INT_STATUS_DMP_5 (0x2000)
 
 /* Set up APIs */
+
 int mpu_init(void);
 int mpu_init_slave(void);
 int mpu_set_bypass(unsigned char bypass_on);
@@ -126,18 +124,30 @@ int mpu_read_reg(unsigned char reg, unsigned char *data);
 int mpu_run_self_test(long *gyro, long *accel);
 int mpu_register_tap_cb(void (*func)(unsigned char, unsigned char));
 
-unsigned short inv_row_2_scale(const signed char *row);
-unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx);
-uint8_t run_self_test(void);
-uint8_t mpu_dmp_init(void);
-uint8_t mpu_dmp_get_data(float *pitch, float *roll, float *yaw);
+/*    自己实现的简易操作      */
 
-/* rewrite */
+//无用函数，需要使用自行实现
 
 void mget_ms(unsigned long *time);
-void mlog(const char *str, ...);
-void mdelay_ms(uint32_t ms);
-uint8_t miic_write(uint8_t address, uint8_t reg, uint16_t len, unsigned char *buf);
-uint8_t miic_read(uint8_t address, uint8_t reg, uint16_t len, unsigned char *buf);
+void mprintf(unsigned char *str, ...);
+
+// 用来设置x,y,x轴相应的方向
+
+unsigned short inv_row_2_scale(const signed char *row);
+unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx);
+
+/**
+ * 
+ * @brief 初始化mpu和DMP模块，启用FIFO
+*/
+uint8_t mpu_dmp_init(void);
+
+/**
+ * @brief 获取欧拉角数据
+ * @param pitch 俯仰角 精度:0.1°   范围:-90.0° <---> +90.0°
+ * @param roll roll:横滚角  精度:0.1°   范围:-180.0°<---> +180.0°
+ * @param yaw 航向角   精度:0.1°   范围:-180.0°<---> +180.0°
+*/
+uint8_t mpu_dmp_get_data(float *pitch, float *roll, float *yaw);
 
 #endif /* #ifndef _INV_MPU_H_ */
