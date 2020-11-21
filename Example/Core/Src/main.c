@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,7 +67,8 @@ static void MX_USART1_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  float pitch = 0, roll = 0, yaw = 0;
+  uint8_t uart_buffer[256];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -89,6 +91,11 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  if (mpu_dmp_init())
+  {
+    HAL_UART_Transmit(&huart1, "error", 6, 100);
+    return 0;
+  }
 
   /* USER CODE END 2 */
 
@@ -96,6 +103,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if (mpu_dmp_get_data(&pitch, &roll, &yaw))
+    {
+      sprintf(uart_buffer, "error:cannot get data");
+    }
+    else
+    {
+      sprintf(uart_buffer, "pitch:%.3f roll:%.3f yaw:%.3f \n", pitch, roll, yaw);
+    }
+    HAL_UART_Transmit(&huart1, uart_buffer, (uint16_t)strlen(uart_buffer), 100);
+    memset(uart_buffer, 0, 256);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -127,8 +144,7 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -170,7 +186,6 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
-
 }
 
 /**
@@ -186,15 +201,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PA0 PA1 PA2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
+  GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
@@ -213,7 +227,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

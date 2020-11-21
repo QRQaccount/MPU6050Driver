@@ -33,8 +33,8 @@ extern "C"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../MPU6050/Include/inv_mpu.h"
-#include "../../MPU6050/Include/inv_mpu_dmp_motion_driver.h"
+#include "MPU6050/inv_mpu.h"
+#include "MPU6050/inv_mpu_dmp_motion_driver.h"
   /* USER CODE END Includes */
 
   /* Exported types ------------------------------------------------------------*/
