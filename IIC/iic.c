@@ -1,4 +1,4 @@
-#include "iic.h"
+#include "IIC/iic.h"
 
 #define GPIO_Init()                                               \
     GPIO_InitTypeDef GPIO_InitStruct;                             \
@@ -38,7 +38,7 @@ void IIC_SDA_Write_Mode(void)
     __HAL_RCC_GPIOA_CLK_ENABLE();
     GPIO_InitStruct.Pin = IIC_SDA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_WritePin(IIC_SDA_Port, IIC_SDA_Pin, GPIO_PIN_RESET);
     HAL_GPIO_Init(IIC_SDA_Port, &GPIO_InitStruct);
@@ -78,8 +78,6 @@ uint8_t IIC_Waite_Ack(void)
 {
     uint8_t ucErrorTime = 0;
     IIC_SDA_Read_Mode();
-    IIC_SDA_High();
-    IIC_Delay(2);
     IIC_SCL_High();
     IIC_Delay(2);
     while (IIC_SDA_Read())
@@ -207,11 +205,7 @@ uint8_t IIC_Read_Buffer(uint8_t address, uint8_t reg, uint8_t *buffer, uint16_t 
     // real wirte
     IIC_Start();
     IIC_Write_Data((address << 1) | 1);
-    if (IIC_Waite_Ack())
-    {
-        IIC_Stop();
-        return 1;
-    }
+    IIC_Waite_Ack();
     while (len)
     {
         if (len == 1)

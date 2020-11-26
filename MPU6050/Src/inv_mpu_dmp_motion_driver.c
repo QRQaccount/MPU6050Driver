@@ -21,8 +21,8 @@
 #include <math.h>
 #include "../Include/inv_mpu.h"
 #include "../Include/inv_mpu_dmp_motion_driver.h"
-#include "dmpKey.h"
-#include "dmpmap.h"
+#include "../Include/dmpKey.h"
+#include "../Include/dmpmap.h"
 
 #define MOTION_DRIVER_TARGET_MSP430
 

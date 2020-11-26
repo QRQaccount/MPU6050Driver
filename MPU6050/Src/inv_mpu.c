@@ -24,7 +24,6 @@
 #include <math.h>
 #include "../Include/inv_mpu.h"
 #include "../Include/inv_mpu_dmp_motion_driver.h"
-#include "mpu6050.h"
 
 #define MPU6050                     //定义我们使用的传感器为MPU6050
 #define MOTION_DRIVER_TARGET_MSP430 //定义驱动部分,采用MSP430的驱动(移植到STM32F1)

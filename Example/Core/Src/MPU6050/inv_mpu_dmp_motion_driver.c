@@ -19,10 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../Include/inv_mpu.h"
-#include "../Include/inv_mpu_dmp_motion_driver.h"
-#include "dmpKey.h"
-#include "dmpmap.h"
+#include "MPU6050/inv_mpu.h"
+#include "MPU6050/inv_mpu_dmp_motion_driver.h"
+#include "MPU6050/dmpKey.h"
+#include "MPU6050/dmpmap.h"
 
 #define MOTION_DRIVER_TARGET_MSP430
 

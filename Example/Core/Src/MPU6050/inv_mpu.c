@@ -25,7 +25,6 @@
 #include "MPU6050/inv_mpu.h"
 #include "MPU6050/inv_mpu_dmp_motion_driver.h"
 
-
 #define MPU6050                     //定义我们使用的传感器为MPU6050
 #define MOTION_DRIVER_TARGET_MSP430 //定义驱动部分,采用MSP430的驱动(移植到STM32F1)
 
@@ -47,7 +46,7 @@
 #define q30 1073741824.0f
 
 #define __IIC_WRITE(addr, reg, length, data) IIC_Write_Buffer(addr, reg, data, length)
-#define __IIC_READ(addr, reg, length, data) IIC_Read_Buffer(addr, reg, length, data)
+#define __IIC_READ(addr, reg, length, data) IIC_Read_Buffer(addr, reg, data, length)
 
 #define i2c_write __IIC_WRITE
 #define i2c_read __IIC_READ

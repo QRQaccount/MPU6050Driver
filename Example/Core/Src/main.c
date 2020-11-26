@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "string.h"
+#include "stdint.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,6 +70,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
   float pitch = 0, roll = 0, yaw = 0;
   uint8_t uart_buffer[256];
+  uint32_t i = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -109,8 +111,12 @@ int main(void)
     }
     else
     {
-      sprintf(uart_buffer, "pitch:%.3f roll:%.3f yaw:%.3f \n", pitch, roll, yaw);
+      dmp_get_pedometer_step_count(&i);
+      sprintf(uart_buffer, "step:%d\r\n", i);
+
+      // sprintf(uart_buffer, "A:%.3f,%.3f,%.3f\n", pitch, roll, yaw);
     }
+
     HAL_UART_Transmit(&huart1, uart_buffer, (uint16_t)strlen(uart_buffer), 100);
     memset(uart_buffer, 0, 256);
     /* USER CODE END WHILE */
