@@ -46,7 +46,7 @@
 #define q30 1073741824.0f
 
 #define __IIC_WRITE(addr, reg, length, data) IIC_Write_Buffer(addr, reg, data, length)
-#define __IIC_READ(addr, reg, length, data) IIC_Read_Buffer(addr, reg, length, data)
+#define __IIC_READ(addr, reg, length, data) IIC_Read_Buffer(addr, reg, data, length)
 
 #define i2c_write __IIC_WRITE
 #define i2c_read __IIC_READ
